@@ -38,7 +38,6 @@ The project consists of three core components:
    DB_HOST = your_host
    DB_USER = your_user
    DB_PASSWORD = your_password
-   DB_NAME = 'game_monitoring'
 4. Add your games to the games table:
    (app_id can be found in the google play url's game page. Just search the game in the google play store)
    ```sql
