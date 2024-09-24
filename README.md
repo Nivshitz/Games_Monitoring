@@ -33,17 +33,17 @@ The project consists of three core components:
    ```python
    pip install -r requirements.txt
 3. Set up a MySQL database for storing game and installation data. Use [create_game_monitoring_db.sql](/create_game_monitoring_db.sql) file for this.
-4. Create a .env file containing your MySQL credentials:
+    Create a .env file containing your MySQL credentials:
    ```bash
    DB_HOST = your_host
    DB_USER = your_user
    DB_PASSWORD = your_password
    DB_NAME = 'game_monitoring'
-6. Add your games to the games table:
+4. Add your games to the games table:
    (app_id can be found in the google play url's game page. Just search the game in the google play store)
    ```sql
    INSERT INTO games (name, app_id) VALUES ('Coin Master', 'com.moonactive.coinmaster');
-7. Run the script to start monitoring (Daily manually):
+5. Run the script to start monitoring (Daily manually):
    ```python
    python monitor_installations.py
 
