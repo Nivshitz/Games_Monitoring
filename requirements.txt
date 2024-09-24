@@ -1,0 +1,4 @@
+mysql.connector
+dotenv
+pandas
+google_play_scraper
