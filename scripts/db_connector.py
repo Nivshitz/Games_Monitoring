@@ -10,7 +10,7 @@ def game_monitoring_connector():
     db_host = os.getenv('DB_HOST')
     db_user = os.getenv('DB_USER')
     db_password = os.getenv('DB_PASSWORD')
-    db_name = os.getenv('DB_NAME')
+    db_name = 'game_monitoring'
 
     db_connection = mysql.connector.connect(
         host = db_host,
