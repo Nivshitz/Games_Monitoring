@@ -1,5 +1,5 @@
 from db_connector import game_monitoring_connector
-from update_reddit_data_table import update_reddit_data_table
+from update_installations_table import update_installations_table
 
 # Calculate the average installs per game in the last 7 days
 def calculate_7days_average(cursor, game_id, days=7):
@@ -20,6 +20,7 @@ def monitor_installations(threshold_percentage=1.1):  # Example: 10% increase
     cursor.execute("SELECT game_id FROM games")
     game_ids = cursor.fetchall()
 
+    all_games_passed = 0
     for (game_id,) in game_ids:
         # Get today's installations
         current_installs_query = """
@@ -35,18 +36,24 @@ def monitor_installations(threshold_percentage=1.1):  # Example: 10% increase
             average_installs = calculate_7days_average(cursor, game_id)
 
             # Set dynamic threshold (number of installations)
-            threshold = average_installs * threshold_percentage
+            threshold = float(average_installs) * threshold_percentage
 
             if current_installs > threshold:
                 game_name_query = "SELECT game_name FROM games WHERE game_id = %s"
                 cursor.execute(game_name_query, (game_id,))
                 game_name = cursor.fetchone()
-                print(f"{game_name} has passed it's threshold ({threshold}).")
-                update_reddit_data_table(game_name) # Trigger collect reddit data about the game
-
+                print(f"Alert! The game '{game_name}' has exceeded its threshold of {threshold} installations.")
+                # Trigger collect reddit data about the game
+            else:
+                all_games_passed += 1
+        else:
+            print("Today's data is not exists in installs table.")
+    if all_games_passed == 5:
+        print('All games did not exceeded their threshold today.')
     # Close the cursor and connection
     cursor.close()
     db_connection.close()
 
 if __name__ == '__main__':
+    update_installations_table()
     monitor_installations()
