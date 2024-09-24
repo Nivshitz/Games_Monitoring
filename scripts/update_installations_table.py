@@ -1,6 +1,5 @@
 from google_play_scraper import app
 from datetime import date
-from db_connector import game_monitoring_connector
 
 # Get the current installs from Google Play Store
 def get_current_installs(app_id):
@@ -12,12 +11,8 @@ def get_current_installs(app_id):
         installs = None
     return installs
 
-def update_installations_table():
-    db_connection = game_monitoring_connector()
+def update_installations_table(cursor):
     current_date = date.today().strftime("%Y-%m-%d")
-
-    # Create a cursor
-    cursor = db_connection.cursor()
 
     # Fetch all game_ids and app_ids of all games
     query = "SELECT game_id, app_id FROM games"
@@ -40,14 +35,4 @@ def update_installations_table():
         else:
             print(f"Record for game_id {game_id} on date {current_date} already exists.")
 
-    # Commit the changes
-    db_connection.commit()
-
-    # Close the cursor and connection
-    cursor.close()
-    db_connection.close()
-
     print("Installations table updated successfully.")
-
-if __name__ == '__main__':
-    update_installations_table()

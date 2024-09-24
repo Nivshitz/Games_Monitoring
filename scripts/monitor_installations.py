@@ -1,7 +1,3 @@
-from db_connector import game_monitoring_connector
-from update_installations_table import update_installations_table
-from p_chg_plotting import p_chg_plot
-
 # Calculate the average installs per game in the last 7 days
 def calculate_7days_average(cursor, game_id, days=7):
     avg_installs_query = """
@@ -12,11 +8,7 @@ def calculate_7days_average(cursor, game_id, days=7):
     cursor.execute(avg_installs_query, (game_id, days))
     return cursor.fetchone()[0]
 
-
-def monitor_installations(threshold_percentage=1.1):  # Example: 10% increase 
-    db_connection = game_monitoring_connector()
-    cursor = db_connection.cursor()
-
+def monitor_installations(cursor, threshold_percentage=1.1):  # Example: 10% increase
     # Fetch all game_ids
     cursor.execute("SELECT game_id FROM games")
     game_ids = cursor.fetchall()
@@ -51,11 +43,3 @@ def monitor_installations(threshold_percentage=1.1):  # Example: 10% increase
             print("Today's data is not exists in installs table.")
     if all_games_passed == 5:
         print('None of the games exceeded their threshold today.')
-    # Close the cursor and connection
-    cursor.close()
-    db_connection.close()
-
-if __name__ == '__main__':
-    update_installations_table()
-    monitor_installations()
-    p_chg_plot()
