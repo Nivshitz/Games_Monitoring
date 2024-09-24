@@ -18,8 +18,6 @@ def game_monitoring_connector():
         password = db_password,
         database = db_name
     )
-
-    # Use these variables in your application
+    
     print(f"Connected to database {db_name} at {db_host} with user {db_user}")
-
     return db_connection
