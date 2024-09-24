@@ -22,7 +22,7 @@ The project consists of three core components:
 
 ## Usage
 ### Prerequisites
-- Python 3.x
+- Python 3
 - MySQL
 
 ### Installation
