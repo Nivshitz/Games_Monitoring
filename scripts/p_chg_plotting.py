@@ -24,7 +24,7 @@ def p_chg_plot(cursor):
     # Calculate percentage change for each game
     df['percentage_change'] = df.groupby('game_name')['installsCount'].pct_change() * 100
 
-    # Create subplots (5 rows, 1 column)
+    # Create subplots
     fig, axes = plt.subplots(nrows=len(games), ncols=1, figsize=(10, 12), sharex=True)
 
     # Plot each game on a separate subplot
